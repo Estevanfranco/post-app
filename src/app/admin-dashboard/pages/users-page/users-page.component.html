@@ -1,0 +1,49 @@
+<div class="mb-5">
+    <h1 class="text-2xl text-secondary">Lista De Usuarios</h1>
+</div>
+<div class="divider divider-secondary"></div>
+
+<div class="flex w-full items-center justify-between gap-4 h-20">
+    <label class="floating-label">
+        <span>Items Per Page</span>
+        <select
+            class="select select-bordered w-32"
+            (change)="setLimit(itemPP.value)"
+            #itemPP
+        >
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </label>
+    <div class="flex-1 flex justify-center">
+        <app-pagination 
+            [pages]="userResource.value()?.data?.totalPages ?? 0"
+            [currentPage]="paginationService.currentPage()"
+        >
+        </app-pagination>
+    </div>
+    <button class="btn btn-secondary" routerLink="/dashboard/users/new">
+        <i class="bi bi-plus-circle"></i>New User
+    </button>
+</div>
+
+@if (userResource.isLoading()){
+    <div class="flex justify-center items-center h-screen">
+        <span class="loading loading-spinner loading-lg"></span>
+    </div>
+}
+@if (userResource.hasValue()){
+    <user-table [users]="userResource.value().data.users" (delete)="deletedUser($event)"></user-table>
+} @else {
+    <div class="flex justify-center items-center h-screen">
+        <h2 class="text-2xl">Lista no tiene datos para mostrar</h2>
+    </div>
+}
+
+ <app-pagination 
+            [pages]="userResource.value()?.data?.totalPages ?? 0"
+            [currentPage]="paginationService.currentPage()"
+        >
+        </app-pagination>

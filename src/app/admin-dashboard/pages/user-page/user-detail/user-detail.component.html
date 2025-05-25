@@ -1,0 +1,104 @@
+<h1 class="text-2xl font-bold font-montserrat mb-4">
+  {{ user().first_name }} {{ user().last_name }}
+</h1>
+
+<div class="divider divider-secondary"></div>
+
+<form [formGroup]="userForm" 
+      class="grid grid-cols-1 sm:grid-cols-2 gap-4" 
+      (ngSubmit)="onSubmit()">
+  <div class="flex flex-col gap-2">
+    <h2>Datos Del Usuario</h2>
+
+    <label class="floating-label">
+      <span>First Name</span>
+    <input
+      type="text"
+      placeholder="first name"
+      class="input input-bordered w-full"
+      formControlName="first_name"
+    />
+    </label>
+    <label class="floating-label">
+      <span>Last Name</span>
+    <input
+      type="text"
+      placeholder="last name"
+      class="input input-bordered w-full"
+      formControlName="last_name"
+    />
+    </label>
+    <label class="floating-label">
+      <span>Email</span>
+    <input
+      type="text"
+      placeholder="email"
+      class="input input-bordered w-full"
+      formControlName="email"
+    />
+    </label>
+    <label class="floating-label">
+      <span>Telephone</span>
+    <input
+      type="text"
+      placeholder="telephone"
+      class="input input-bordered w-full"
+      formControlName="telephone"
+    />
+    </label>  
+    @if(user().id === 'new') {
+      <label class="floating-label">
+      <span>Password</span>
+      <input
+        type="text"
+        placeholder="password"
+        class="input input-bordered w-full"
+        formControlName="password"
+      />
+      </label>
+    }
+
+    <select class="select select-bordered w-full" formControlName="role_id">
+      <option value="0">Seleccione un rol</option>
+      @for(role of rolesResource.value()?.data?.roles; track $index) {
+        <option [value]="role.id">{{ role.name }}</option>
+      }
+    </select>
+    <div class="flex flex-col gap-2 mt-6">
+  <h2>Foto de Perfil</h2>
+
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+    @if(!previeIMG){
+    <img
+      class="object-contain animate-fadeIn h-[300px]"
+      [src]="user().id | UserImages"
+      [alt]="user().avatar"
+      width="300"
+      height="200"
+      priority
+    />
+    }@else{
+    <img
+      class="object-contain animate-fadeIn h-[300px]"
+      [src]="previewURL"
+      [alt]="user().avatar"
+      width="300"
+      height="200"
+      priority
+    />
+    }
+  </div>
+
+  <input
+    type="file"
+    accept="image/*"
+    class="file-input file-input-bordered w-full max-w-md self-center sm:self-start"
+    (change)="onFIlesChange($event)"
+  />
+</div>
+<button class="btn btn-secondary" type="submit">
+      <!-- <span class="loading loading-spinner loading-sm"></span> -->
+      Guardar
+    </button>
+  </div>
+</form>
