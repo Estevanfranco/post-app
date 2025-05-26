@@ -153,6 +153,8 @@ export class UserService extends BaseHttpService {
         });
         this.router.navigate(['/auth/login']);
       } else {
+        
+
         Swal.fire({
           title: 'Borrado!!',
           text: 'Cuenta borrada con exito',
@@ -161,6 +163,7 @@ export class UserService extends BaseHttpService {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Si, Eliminar Perfil',
+
         }).then((result) => {
           if (result.isConfirmed) {
             location.reload();
