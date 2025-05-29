@@ -1,11 +1,11 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { UserTableComponent } from '../../../users/components/user-table/user-table.component';
-import { UserService } from '../../../users/services/user.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
-import { PaginationService } from '../../../shared/components/pagination/pagination.service';
 import Swal from 'sweetalert2';
+import { UserTableComponent } from '@users/components/user-table/user-table.component';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { UserService } from '@users/services/user.service';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-user-page',

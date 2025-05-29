@@ -1,0 +1,8 @@
+@if (postResource.isLoading()) {
+  <div class="flex justify-center items-center h-screen">
+    <span class="loading loading-spinner loading-lg"></span>
+  </div>
+}
+@if (postResource.hasValue()) {
+  <post-detail [post]="postResource.value().data"></post-detail>
+}

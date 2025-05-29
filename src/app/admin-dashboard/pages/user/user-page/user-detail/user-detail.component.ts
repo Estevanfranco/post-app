@@ -1,11 +1,14 @@
 import { Component, inject, input } from '@angular/core';
-import { User } from '../../../../users/interfaces/user.interfaces';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../../../users/services/user.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { UserImagesPipe } from '../../../../users/pipes/user-images.pipe';
 import Swal from 'sweetalert2';
+import { User } from '@users/interfaces/user.interfaces';
+import { UserImagesPipe } from '@users/pipes/user-images.pipe';
+import { UserService } from '@users/services/user.service';
+import { RolesService } from '@roles/services/roles.service';
+
 
 @Component({
   selector: 'user-detail',
@@ -23,6 +26,8 @@ export class UserDetailComponent {
   avatarFile: File | null = null;
 
   UserService = inject(UserService);
+  RoleService = inject(RolesService);
+
 
   userForm = this.fb.group({
     first_name: ['', Validators.required],
@@ -35,9 +40,9 @@ export class UserDetailComponent {
   });
 
   rolesResource = rxResource({
-    request: () => ({}),
-    loader: () => {
-      return this.UserService.getRoles();
+    request: () => ({limit: 50 }),
+    loader: ({ request }) => {
+      return this.RoleService.getRoles({ limit: request.limit});
     }
   });
 

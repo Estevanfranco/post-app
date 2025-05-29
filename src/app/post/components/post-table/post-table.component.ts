@@ -1,19 +1,18 @@
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { User } from '@users/interfaces/user.interfaces';
+import { Post } from '@post/interfaces/post.interfaces';
 
 @Component({
-  selector: 'user-table',
+  selector: 'post-table',
   imports: [RouterLink],
-  templateUrl: './user-table.component.html',
-  styleUrl: './user-table.component.css'
+  templateUrl: './post-table.component.html',
+  styleUrl: './post-table.component.css'
 })
-export class UserTableComponent {
-  users = input.required<User[]>();
+export class PostTableComponent {
+  posts = input.required<Post[]>();
   delete = output<string>();
   offset = input.required<number>();
 
-  
   emitDeleted(id: string){
     this.delete.emit(id);
   }

@@ -1,23 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of, tap } from 'rxjs';
-import { BaseHttpService } from '../../shared/services/base-http.service';
+import { forkJoin ,Observable, of, tap } from 'rxjs';
+import { BaseHttpService } from '@shared/services/base-http.service';
 import {
-  Role,
-  RolesResponse,
   User,
   UserResponse,
   UsersResponse,
 } from '../interfaces/user.interfaces';
-import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
-import { AuthService } from '../../auth/services/auth.service';
+import { AuthService } from '@auth/services/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
-interface Options {
-  limit?: number;
-  page?: number;
-}
-
+import { Options } from '@shared/interfaces/shared.interfaces';
+import { Role } from '@roles/interfaces/role.interfaces';
 const emptyUser: User = {
   id: 'new',
   first_name: '',
@@ -37,7 +30,6 @@ const emptyUser: User = {
 export class UserService extends BaseHttpService {
   private UserCache = new Map<string, UserResponse>();
   private UsersCache = new Map<string, UsersResponse>();
-  private RoleCache = new Map<string, RolesResponse>();
   authService = inject(AuthService);
   router = inject(Router);
 
@@ -69,16 +61,6 @@ export class UserService extends BaseHttpService {
       .get<UserResponse>(`${this.apiUrl}/users/${id}`)
       .pipe(tap((resp) => this.UserCache.set(id, resp)));
   }
-
-  getRoles(): Observable<RolesResponse> {
-    if (this.RoleCache.has('roles')) {
-      return of(this.RoleCache.get('roles')!);
-    }
-    return this.http
-      .get<RolesResponse>(`${this.apiUrl}/roles`)
-      .pipe(tap((resp) => this.RoleCache.set('roles', resp)));
-  }
-
   created(data: any): Observable<UserResponse> {
     return this.http
       .post<UserResponse>(`${this.apiUrl}/users`, data)
@@ -153,8 +135,6 @@ export class UserService extends BaseHttpService {
         });
         this.router.navigate(['/auth/login']);
       } else {
-        
-
         Swal.fire({
           title: 'Borrado!!',
           text: 'Cuenta borrada con exito',
@@ -163,7 +143,6 @@ export class UserService extends BaseHttpService {
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Si, Eliminar Perfil',
-
         }).then((result) => {
           if (result.isConfirmed) {
             location.reload();
