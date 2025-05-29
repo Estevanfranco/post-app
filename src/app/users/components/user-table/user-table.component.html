@@ -1,0 +1,51 @@
+<div class="overflow-x-auto rounded-box border border-base-content/s">
+
+    <table class="table text-center">
+        <!-- head -->
+        <thead>
+            <tr >
+                <th>#</th>
+                <th>FullName</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- row 1 -->
+             @for(user of users(); track user.id; let i = $index){
+            <tr>
+                <th>{{ i+1 }}</th>
+                <td>
+                    <div class="flex items-center gap-3 w-full allign-middle">
+                        <div class="avatar">
+                            <div class="mask mask-squircle h-12 w-12">
+                                <img src="http://localhost:3000/api/users/avatar/{{user.id}}"
+                                    alt="Avatar Tailwind CSS Component" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold">{{user.first_name}} {{user.last_name}}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="badge badge-ghost badge-sm">{{user.email}}</span>
+                </td>
+                <td>
+                     <span class="badge badge-ghost badge-sm">{{user.telephone}}</span>
+                </td>
+                <th>
+
+                    <button class="btn btn-error btn-xs rounded-full py-4 me-3" (click)="emitDeleted(user.id)">
+                         <i class="bi bi-trash text-lg"></i>
+                    </button>
+
+                    <button class="btn btn-info btn-xs rounded-full py-4 me-3" [routerLink]="['/dashboard/users/', user.id]">
+                        <i class="bi bi-pencil-square"></i></button> 
+                </th>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
